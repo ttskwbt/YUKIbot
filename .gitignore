@@ -1,0 +1,26 @@
+# 環境変数ファイル
+.env
+pass.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# データファイル
+# last_checked.json はGitHub Actionsで使用するため、Gitに含める
+# last_checked.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
