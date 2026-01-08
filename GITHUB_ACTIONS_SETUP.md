@@ -28,16 +28,16 @@ git push -u origin main
 4. 以下の4つのシークレットを追加：
 
    - **Name**: `TWITTER_API_KEY`
-     **Value**: `XNqZbCJcQFFHbiBKdsSxpTMY8`
+     **Value**: `あなたのAPI Keyをここに入力`
 
    - **Name**: `TWITTER_API_KEY_SECRET`
-     **Value**: `VPDucAW6c1Q4J8sYQkkiHrJO4llkmEXI4T34M1aMapPEjMDlLg`
+     **Value**: `あなたのAPI Key Secretをここに入力`
 
    - **Name**: `TWITTER_ACCESS_TOKEN`
-     **Value**: `2009223159044882432-GrW6n5OozjHWa8lIrDgQsRaZCJITPE`
+     **Value**: `あなたのAccess Tokenをここに入力`
 
    - **Name**: `TWITTER_ACCESS_TOKEN_SECRET`
-     **Value**: `EfJl2NeWz952Sls6Kmo4w3Mh5W8tVfqVnyN0K7NktN1Zk`
+     **Value**: `あなたのAccess Token Secretをここに入力`
 
 ### 3. ワークフローの確認
 

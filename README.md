@@ -27,8 +27,8 @@ pip3 install -r requirements.txt
 # Twitter API認証情報（OAuth 1.0a - ツイート投稿に必須）
 TWITTER_API_KEY=
 TWITTER_API_KEY_SECRET=
-TWITTER_ACCESS_TOKEN=your_access_token_here
-TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret_here
+TWITTER_ACCESS_TOKEN=
+TWITTER_ACCESS_TOKEN_SECRET=
 ```
 
 
