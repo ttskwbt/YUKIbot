@@ -25,13 +25,13 @@ pip3 install -r requirements.txt
 
 ```env
 # Twitter API認証情報（OAuth 1.0a - ツイート投稿に必須）
-TWITTER_API_KEY=XNqZbCJcQFFHbiBKdsSxpTMY8
-TWITTER_API_KEY_SECRET=VPDucAW6c1Q4J8sYQkkiHrJO4llkmEXI4T34M1aMapPEjMDlLg
+TWITTER_API_KEY=
+TWITTER_API_KEY_SECRET=
 TWITTER_ACCESS_TOKEN=your_access_token_here
 TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret_here
 ```
 
-**重要**: `.env` ファイルは `.gitignore` に含まれているため、Gitにコミットされません。認証情報が漏洩しないよう注意してください。
+
 
 ### 3. Twitter APIのAccess TokenとAccess Token Secretの取得
 
