@@ -78,12 +78,18 @@ class YUKIBot:
             self.api = tweepy.API(auth, wait_on_rate_limit=True)
 
             # 認証テスト（v1.1）
-            me = self.api.verify_credentials()
-            if me is None:
-                raise Exception("verify_credentials が失敗しました（認証情報またはアプリ権限を確認してください）")
-
-            print("✓ Twitter認証成功（OAuth 1.0a / v1.1）")
-            print(f"  認証ユーザー: @{me.screen_name}")
+            # 環境によっては verify_credentials で 403 を返す場合があるため、
+            # ここでは警告に留めて投稿時のAPI呼び出しで最終判定する。
+            try:
+                me = self.api.verify_credentials()
+                if me is not None:
+                    print("✓ Twitter認証成功（OAuth 1.0a / v1.1）")
+                    print(f"  認証ユーザー: @{me.screen_name}")
+                else:
+                    print("⚠ verify_credentials の結果が空でした。投稿処理で認証状態を確認します。")
+            except Exception as verify_err:
+                print(f"⚠ verify_credentials をスキップします: {verify_err}")
+                print("  投稿処理で認証状態を確認します。")
         except tweepy.Unauthorized as e:
             raise Exception(f"Twitter認証に失敗しました。認証情報を確認してください: {e}")
         except Exception as e:
