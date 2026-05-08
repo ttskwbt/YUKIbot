@@ -67,19 +67,23 @@ class YUKIBot:
             error_msg += "\n取得方法はREADME.mdを参照してください。"
             raise ValueError(error_msg)
         
-        # OAuth 1.0a認証（ツイート投稿に必須）
+        # OAuth 1.0a認証（v1.1 APIを利用）
         try:
-            self.client = tweepy.Client(
-                consumer_key=self.api_key,
-                consumer_secret=self.api_key_secret,
-                access_token=self.access_token,
-                access_token_secret=self.access_token_secret,
-                wait_on_rate_limit=True
+            auth = tweepy.OAuth1UserHandler(
+                self.api_key,
+                self.api_key_secret,
+                self.access_token,
+                self.access_token_secret
             )
-            # 認証テスト（自分のアカウント情報を取得）
-            me = self.client.get_me()
-            print(f"✓ Twitter認証成功（OAuth 1.0a）")
-            print(f"  認証ユーザー: @{me.data.username}")
+            self.api = tweepy.API(auth, wait_on_rate_limit=True)
+
+            # 認証テスト（v1.1）
+            me = self.api.verify_credentials()
+            if me is None:
+                raise Exception("verify_credentials が失敗しました（認証情報またはアプリ権限を確認してください）")
+
+            print("✓ Twitter認証成功（OAuth 1.0a / v1.1）")
+            print(f"  認証ユーザー: @{me.screen_name}")
         except tweepy.Unauthorized as e:
             raise Exception(f"Twitter認証に失敗しました。認証情報を確認してください: {e}")
         except Exception as e:
@@ -333,9 +337,9 @@ class YUKIBot:
         """記事をツイート"""
         try:
             tweet_text = self.create_tweet(article)
-            response = self.client.create_tweet(text=tweet_text)
+            response = self.api.update_status(status=tweet_text)
             print(f"✓ ツイート成功: {article['title']}")
-            print(f"  ツイートID: {response.data['id']}")
+            print(f"  ツイートID: {response.id}")
             return True
         except Exception as e:
             print(f"❌ ツイートに失敗しました: {e}")
