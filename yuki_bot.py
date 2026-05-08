@@ -76,6 +76,13 @@ class YUKIBot:
                 self.access_token_secret
             )
             self.api = tweepy.API(auth, wait_on_rate_limit=True)
+            self.client_v2 = tweepy.Client(
+                consumer_key=self.api_key,
+                consumer_secret=self.api_key_secret,
+                access_token=self.access_token,
+                access_token_secret=self.access_token_secret,
+                wait_on_rate_limit=True
+            )
 
             # 認証テスト（v1.1）
             # 環境によっては verify_credentials で 403 を返す場合があるため、
@@ -343,9 +350,19 @@ class YUKIBot:
         """記事をツイート"""
         try:
             tweet_text = self.create_tweet(article)
-            response = self.api.update_status(status=tweet_text)
-            print(f"✓ ツイート成功: {article['title']}")
-            print(f"  ツイートID: {response.id}")
+            # まず v2 で投稿（現行のX APIではこちらのほうが安定）
+            try:
+                response_v2 = self.client_v2.create_tweet(text=tweet_text)
+                print(f"✓ ツイート成功(v2): {article['title']}")
+                print(f"  ツイートID: {response_v2.data['id']}")
+                return True
+            except Exception as v2_err:
+                print(f"⚠ v2投稿に失敗。v1.1で再試行します: {v2_err}")
+
+            # v2 が失敗した場合のみ v1.1 へフォールバック
+            response_v1 = self.api.update_status(status=tweet_text)
+            print(f"✓ ツイート成功(v1.1): {article['title']}")
+            print(f"  ツイートID: {response_v1.id}")
             return True
         except Exception as e:
             print(f"❌ ツイートに失敗しました: {e}")
